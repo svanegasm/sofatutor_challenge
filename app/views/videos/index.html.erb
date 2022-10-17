@@ -1,0 +1,45 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Videos</h1>
+
+<br>
+
+<%= form_tag({:controller => "videos", :action => "index"}, :method => :get) do %>
+
+    <%= text_field_tag "search_field", params[:search_field] %>
+
+    <%= submit_tag "Buscar", :name => nil %>
+
+<% end %>
+
+<br>
+
+<% if @videos.present? %>
+  <table>
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Subject</th>
+        <th colspan="3"></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @videos.each do |video| %>
+        <tr>
+          <td><%= video.title %></td>
+          <td><%= video.subject.subject_name %></td>
+          <!--<td><%= link_to 'Show', video %></td>
+          <td><%= link_to 'Edit', edit_video_path(video) %></td>
+          <td><%= link_to 'Destroy', video, method: :delete, data: { confirm: 'Are you sure?' } %></td>-->
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <h4> No results. </h4>
+<% end %>
+
+<br>
+
+<!-- <%= link_to 'New Video', new_video_path %> -->
