@@ -3,7 +3,7 @@ class VideosController < ApplicationController
 
   # GET /videos or /videos.json
   def index
-    @videos = Video.search(search_param: params[:search_field])
+    @videos = Video.search(search_param: params[:search_field]).paginate(page: page, per_page: per_page)
 
     respond_to do |format|
       format.html # index.html.erb
@@ -70,5 +70,13 @@ class VideosController < ApplicationController
     # Only allow a list of trusted parameters through.
     def video_params
       params.require(:video).permit(:title, :subject_id)
+    end
+
+    def page
+      params[:page].try(:to_i) || 1
+    end
+
+    def per_page
+      params[:per_page].try(:to_i) || 10
     end
 end
