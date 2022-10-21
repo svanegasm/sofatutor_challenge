@@ -3,7 +3,7 @@
     <%= form_tag({:controller => "videos", :action => "index"}, :method => :get) do %>
       <div class="grid-column-11">
         <div class="search-form" id="instant-search-form">
-          <%= text_field_tag "search_field", params[:search_field], class: "search-form__input", placeholder: "Suchbegriff eingeben…", autocomplete: :off %>
+          <%= text_field_tag "search_field", params[:search_field], class: "search-form__input", placeholder: "Suche nach Videotitel...", autocomplete: :off %>
           <div id="search-state-helpers"><button class="clear-icon sprites-search sprites-search--close" id="search-input-clear"></button></div>
         </div>
       </div>
