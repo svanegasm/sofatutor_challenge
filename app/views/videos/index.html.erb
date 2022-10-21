@@ -1,45 +1,64 @@
-<p id="notice"><%= notice %></p>
-
-<h1>Videos</h1>
-
-<br>
-
-<%= form_tag({:controller => "videos", :action => "index"}, :method => :get) do %>
-
-    <%= text_field_tag "search_field", params[:search_field] %>
-
-    <%= submit_tag "Buscar", :name => nil %>
-
-<% end %>
-
-<br>
-
-<% if @videos.present? %>
-  <table>
-    <thead>
-      <tr>
-        <th>Title</th>
-        <th>Subject</th>
-        <th colspan="3"></th>
-      </tr>
-    </thead>
-
-    <tbody>
-      <% @videos.each do |video| %>
-        <tr>
-          <td><%= video.title %></td>
-          <td><%= video.subject.subject_name %></td>
-          <!--<td><%= link_to 'Show', video %></td>
-          <td><%= link_to 'Edit', edit_video_path(video) %></td>
-          <td><%= link_to 'Destroy', video, method: :delete, data: { confirm: 'Are you sure?' } %></td>-->
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
-<% else %>
-  <h4> No results. </h4>
-<% end %>
-
-<br>
-<%= will_paginate @videos %>
-<!-- <%= link_to 'New Video', new_video_path %> -->
+<header class="search-content-header">
+  <div class="grid-row search-responsive-grid">
+    <%= form_tag({:controller => "videos", :action => "index"}, :method => :get) do %>
+      <div class="grid-column-11">
+        <div class="search-form" id="instant-search-form">
+          <%= text_field_tag "search_field", params[:search_field], class: "search-form__input", placeholder: "Suchbegriff eingeben…", autocomplete: :off %>
+          <div id="search-state-helpers"><button class="clear-icon sprites-search sprites-search--close" id="search-input-clear"></button></div>
+        </div>
+      </div>
+      <div class="grid-column-1">
+        <%= button_tag :submit, class: "button medium white search__button" do %>
+          <i class='icon icon--small icon--search'></i>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</header>
+<div class="search-results">
+  <div class="grid-row">
+    <div class="grid-column-12">
+      <div class="subject-box">
+        <% if @videos.present? %>
+          <% @videos.group_by { |t| t.subject.subject_name }.each do |subject, videos| %>
+            <div class="subject-box subject-box__content">
+              <h3 class="h4 subject-box__header">
+                <i class="sprites-subjects-64--<%=subject.downcase%> subject-box__icon"></i>
+                <b class="subject-box__title"> <%= subject %> </b>
+              </h3>
+              <ul class="search-result-list">
+                <% videos.each do |video| %>
+                  <li class="search-result-list__item search-result-list__item--bookmarkable">
+                    <a class="search-result-list__item-link" href="#">
+                      <div class="search-result-list__item-thumbnail">
+                        <img class="search-result-list__item-image" src="/assets/video-thumbnail.png">
+                        <i class="icon secondary search-result-list__item-icon icon--video"></i>
+                      </div>
+                      <div class="search-result-list__item-description">
+                        <div class="h5 search-result-list__item-title"><%= video.title %></div>
+                        <div class="grid-x search-result-list__item-meta-details">
+                          <div class="video-icons">
+                            <div class="search-result-list__item-meta-detail">
+                              <i class="icon icon--small icon--video-duration"></i>
+                              <span>3:<%= rand(0..5).to_s+rand(0..9).to_s %> min</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </a>
+                  </li>
+                <% end %>
+              </ul>
+            </div>
+            <br>
+          <% end %>
+        <% else %>
+          <h4> No results. </h4>
+        <% end %>
+        <div class="h4 digg_pagination ">
+          <%= will_paginate @videos %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

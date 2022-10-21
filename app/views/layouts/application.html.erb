@@ -7,9 +7,11 @@
 
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <link rel="stylesheet" media="all" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,400italic,600,600italic,700&amp;display=swap" onload="this.media=&quot;all&quot;">
   </head>
 
-  <body>
+  <body class="is-responsive is-elementary locale-de">
+    <%= render 'layouts/main_layout' %>
     <%= yield %>
   </body>
 </html>
